@@ -5,7 +5,7 @@ const { Dinosaur } = require("../models/index")
 const { checkIfIdExist, checkIfNameExist } = require("../middlewares/dinosaurs")
 
 app.post("/", checkIfNameExist, async (req, res) => {
-  const dinosaur = await Dinosaur.create(req.body)
+  const dinosaur = await Dinosaur.create(req.dinosaur)
   res.json(dinosaur)
 })
 
@@ -32,7 +32,7 @@ app.get("/:id", checkIfIdExist, async (req, res) => {
 })
 
 app.put("/:id", checkIfIdExist, checkIfNameExist, async (req, res) => {
-  const id = req.id
+  const { id } = req.params
   await Dinosaur.update(req.body, {
     where: { id },
   })
@@ -43,7 +43,7 @@ app.put("/:id", checkIfIdExist, checkIfNameExist, async (req, res) => {
 })
 
 app.delete("/:id", checkIfIdExist, async (req, res) => {
-  const id = req.id
+  const { id } = req.params
   await Dinosaur.destroy({
     where: { id },
   })
